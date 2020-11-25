@@ -136,13 +136,17 @@ module.exports = function(passport) {
         User.findOne({ 'mail' :  email }, function(err, user) {
             // if there are any errors, return the error before anything else
             
+/*
             if (err)
             return done(null, false, req.flash('error', err)); // req.flash is the way to set flashdata using connect-flash
+*/
 
 
             // if no user is found, return the message
+/*
             if (!user)
                 return done(null, false, req.flash('error', 'Sorry Your Account Not Exits ,Please Create Account.')); // req.flash is the way to set flashdata using connect-flash
+*/
 
             
             
