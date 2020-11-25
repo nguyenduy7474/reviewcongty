@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Công Ty</title>
+    <link rel="stylesheet" href="/css/css-rv.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+        <header>
+            <div class="left">
+                <div class="logo">
+                    <a href="/"><img src="/imgs/favicon.ico.jpg"/></a>
+                </div>
+                <h1 ><a href="/" style="color: white; text-decoration: none">Review Công Ty</a></h1>
+            </div>
+            <div class="center">
+                <div class="search">
+                   <i class="fa fa-search"></i>
+                    <input style="font-family: 'Roboto', sans-serif;" type="text" placeholder="Tìm kiếm công ty">
+                    </input>
+                </div>
+            </div>
+
+            <div class="right">
+                <i class="fa fa-user-circle"></i>
+                <a href="/login"><b>Đăng nhập</b></a>
+            </div>
+        </header><br>
+        <section>
+            <img src="/imgs/anh-troi.jpg">
+        </section>
+        <section class="title" style="margin-top: -110px;">
+            <h2>Review thỏa thích mọi nơi</h2>
+        </section>
+    <br><br>
+
+    <div>
+        <div class="mention-v" id="listcp">
+        </div>
+
+        <div class="reviews">
+            <div class="box-review">
+                <b><h1 style="text-align: left; font-family: 'Roboto', sans-serif; font-size: 40px;">Review gần đây</h1></b>
+            </div>       
+            <br>
+            <div id="listlastcmt">
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+<script>
+    $(document).ready(function () {
+        getAllpost()
+    })
+
+    function getAllpost() {
+        $.ajax({
+            url: '/getallcompany',
+            type: 'POST',
+        }).then(res => {
+            console.log(res)
+            var string = ""
+            var string2 = ""
+            for (var i = 0; i < res.cpmpanys.length; i++) {
+                string += `<div class="mention-t">
+                <div class="mention">
+                    <a href="/detailcompaney/${res.cpmpanys[i]._id}"><img class="hinh-anh" src="${res.cpmpanys[i].avatar}"></a>
+                    <a href="/detailcompaney/${res.cpmpanys[i]._id}">${res.cpmpanys[i].namecp}</a>
+                    <div class="info">
+                        <span style="margin-right: 5px; font-size: 18px;  font-family: 'Roboto', sans-serif;">
+                            <span class="icon">
+                                <i class="fa fa-archive" aria-hidden="true"></i>
+                            </span>
+                            ${res.cpmpanys[i].typecp}
+                        </span>
+
+                            <span class="icon" style="font-size: 18px;  font-family: 'Roboto', sans-serif;">
+                                <i class="fa fa-users" aria-hidden="true"></i>
+                            </span>
+                             ${res.cpmpanys[i].sizecp}
+                        </span>
+                    </div>
+
+                    <div class="location">
+                        <span style="font-size: 18px; font-family: 'Roboto', sans-serif;">
+                            <span class="icon">
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            </span>
+                            ${res.cpmpanys[i].address}
+                        </span>
+                    </div>
+                </div>
+            </div>`
+            }
+
+            for(var i=0; i< res.comment10.length; i++){
+                var currentDate = new Date(res.comment10[i].datecreate)
+                var date = currentDate.getDate();
+                var month = currentDate.getMonth(); //Be careful! January is 0 not 1
+                var year = currentDate.getFullYear();
+                string2 += `<div class="review-ganday">
+                    <h3 style="font-family: 'Roboto', sans-serif;">
+                        <span class="people">${res.comment10[i].nickname}</span>
+                        <span style="font-family: 'Roboto', sans-serif; color: gray;">đã review</span>
+                        <b><a href="/detailcompaney/${res.comment10[i].companyid}">${res.comment10[i].namecp}</a></b>
+                    </h3>
+                    <p style="font-family: 'Roboto', sans-serif;">${date}/${month}/${year}</p>
+                    <p style="font-family: 'Roboto', sans-serif;">${res.comment10[i].comment}</p>
+                </div>`
+            }
+
+
+            $("#listlastcmt").html(string2)
+            $("#listcp").html(string)
+        })
+    }
+</script>
+</html>

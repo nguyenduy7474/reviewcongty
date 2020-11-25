@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Công Ty Viettel</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/css/css-vtdetail.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="left">
+            <div class="logo">
+                <a href="/"><img src="/imgs/favicon.ico.jpg"/></a>
+            </div>
+            <h1 ><a href="/" style="color: white; text-decoration: none">Review Công Ty</a></h1>
+        </div>
+        <div class="center">
+            <div class="search">
+               <i class="fa fa-search"></i>
+                <input style="font-family: 'Roboto', sans-serif;" type="text" placeholder="Tìm kiếm công ty">
+                </input>
+            </div>
+        </div>
+    
+        <div class="right">
+            <i class="fa fa-user-circle"></i>
+            <a href="/login"><b>Đăng nhập</b></a>
+        </div>
+    </header><br>
+
+    <div>
+        <nav class="arrange">
+            <a style="text-decoration: none;" href="/">
+                <i class="fa fa-home"></i>
+                <span>Trang Chủ</span>
+            </a>
+            <span style="margin-left: 10px; margin-right: 10px; color: black;">/</span>
+            <span style="color: black;"><%= data.namecp%></span>
+        </nav>
+
+        <header class="company">
+            <div class="mention-v">
+                <div class="mention-t">
+                    <div class="mention">
+                        <img class="hinh-anh" src="<%= data.avatar%>">
+                        <a href="#"><%= data.namecp%></a>
+                        <div class="info">
+                            <span style="margin-right: 5px; font-size: 18px;  font-family: 'Roboto', sans-serif;">
+                                <span class="icon">
+                                    <i class="fa fa-archive" aria-hidden="true"></i>
+                                </span>
+                                <%= data.typecp%>
+                            </span>
+                                <span class="icon" style="font-size: 18px;  font-family: 'Roboto', sans-serif;">
+                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                </span>
+                            <%= data.sizecp%>
+                            </span>
+                        </div>
+                        <div class="location">
+                            <span style="font-size: 18px; font-family: 'Roboto', sans-serif;">
+                                <span class="icon">
+                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                </span>
+                                <%= data.address%>
+                            </span>
+                        </div>
+                        <div class="">
+                            <span style="font-size: 18px; font-family: 'Roboto', sans-serif; width: auto">
+                                <span class="icon">
+                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                </span>
+                                <%= data.descp%>
+                            </span>
+                        </div>
+                        <div class="">
+                            <button data-toggle="modal" data-target="#ModalReview" class="btn btn-success">
+                                <span class="icon">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </span>
+                                <span>Viết Review</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+    </header>
+    </div>
+        <div id="listcomment"></div>
+    <input type="hidden" id="idcompany">
+    <div class="modal fade" id="ModalReview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="exampleModalLabel">Viết Review</h2>
+                </div>
+                <div class="modal-body">
+                    <label for="recipient-name" class="col-form-label">Nickname:</label>
+                    <input type="text" class="form-control" id="nickname">
+                    <label for="recipient-name" class="col-form-label">Comment:</label>
+                    <textarea class="form-control" id="comment" rows="7"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="UploadReview()">Đăng Review</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $(document).ready(function () {
+        var id = window.location.pathname.split("/")[2]
+        $("#idcompany").val(id)
+        getComment(id)
+    })
+
+    function getComment(id) {
+        $.ajax({
+            url: '/getcommentbycp',
+            type: 'POST',
+            data: {id: id}
+        }).then(res => {
+            var string = ""
+            for (var i = 0; i < res.length; i++) {
+                var currentDate = new Date(res[i].datecreate)
+                var date = currentDate.getDate();
+                var month = currentDate.getMonth(); //Be careful! January is 0 not 1
+                var year = currentDate.getFullYear();
+                string += `<div class="card-rv">
+                    <div class="head-card">
+                        <b style="float: left"><p style="font-family: 'Roboto', sans-serif; font-size: 20px;">${res[i].nickname}</p></b>
+                        <span style="float: right; margin-right: 10px">${date}/${month}/${year}</span>
+                    </div>
+
+                    <div class="body-card">
+                        <p>${res[i].comment}</p>
+                    </div>
+                </div>`
+            }
+
+            $("#listcomment").html(string)
+        })
+    }
+
+    function UploadReview() {
+        console.log($("#idcompany").val())
+        var data ={
+            companyid: $("#idcompany").val(),
+            nickname: $("#nickname").val(),
+            comment: $("#comment").val()
+        }
+        $.ajax({
+            url: '/uploadcoent',
+            type: 'POST',
+            data: data
+        }).then(res => {
+            console.log(res)
+            if (res.success) {
+                alert("Lên rồi á")
+                $('#ModalReview').modal('toggle')
+                getComment($("#idcompany").val())
+            }
+        })
+    }
+</script>
+</html>

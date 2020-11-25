@@ -1,0 +1,184 @@
+*{
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    border-bottom:black;
+}
+header .left {
+    background-color: midnightblue;
+    width: 100%;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+header .left .logo img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+header .left .logo {
+    display: flex;
+    align-items: center;
+}
+header .left h1{
+    margin-left: 50px;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+}
+header .center {
+    background-color: midnightblue;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+ header .center .search{
+     background-color: white;
+     width: 250px;
+     height: 40px;
+     border-radius: 40px;
+     display: flex;
+     align-items: center;
+ }
+header .center .search i{
+    color: black;
+    display: block;
+    margin-left: 20px;
+    font-size: 20px;
+}
+header .center .search input{
+    margin-left: 10px;
+    outline: none;
+    border: none;
+}
+header .right{
+    background-color: midnightblue;
+    width: 100%;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+header .right a{
+    font-size: 25px;
+    color:white;
+    text-align: center;
+    margin-left: 10px;
+    font-family: 'Roboto', sans-serif;
+    text-decoration: none;
+}
+header .right i{
+    font-size: 25px;
+    color: white;
+}
+header .right a:hover{
+    color: orange;
+}
+section img{
+    display: block;
+    width: 100%;
+    height: 150px;
+}
+section h2{
+    margin-left: 350px;
+    color:white;
+    font-style: bold;
+    font-size: 50px;
+    font-family: 'Roboto', sans-serif;
+}
+
+div .mention-v{
+    width: 650px;
+    height: auto;
+    float: left;
+    margin-top: 30px;
+}
+div .mention-t{
+    padding: 15px;
+    margin-left: 8%;
+    width: 650px;
+    height: auto;
+    background-color: white;
+    border-left: 1px solid #A1B3A7;
+    border-right: 1px solid #A1B3A7;
+    align-items: center;
+    justify-content: center;
+}
+div .mention{
+   
+}
+div .reviews{
+    padding-right: 3%;
+    float: right;
+    width: 550px;
+    margin-top: 40px;
+}
+div .hinh-anh{
+    margin-left: 10px;
+    width: 120px;
+    height: 100px;
+    float: left;
+    margin-right: 10px;
+}
+
+div .mention-t a{
+    font-family: 'Roboto', sans-serif;
+    margin-left: 10px;
+    font-weight: bold;
+    font-size: 25px;
+    color:#40B9ED;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 50px;
+}
+div a:hover{
+    color: black;
+}
+div .icon{
+    margin-left: 5px;
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    height: 2rem;
+    width: 2rem;
+}
+div .box-review{
+    width: 100%;
+    height: 60px;
+    border-bottom: 4px solid yellow;
+}
+div .mention-t:hover{
+    background-color: beige;
+    border-left: 3px solid blue;
+    width: 648px;
+}
+div .review-ganday h3 a{
+  text-decoration: none; 
+  color: #40B9ED; 
+  font-family: 'Roboto', sans-serif;
+}
+div .review-ganday h3 a:hover{
+    color: black;
+}
+
+.review-nhanh{
+    width: 40%;
+    text-align: right;
+}
+.people{
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+}
+p{
+    display: block;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}

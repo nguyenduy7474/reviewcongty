@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Review Company</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <link href="/css/addcompany.css" rel="stylesheet" type="text/css" media="all"/>
+    <link rel="stylesheet" href="/css/css-rv.css">
+</head>
+<body>
+<header>
+    <div class="left">
+        <div class="logo">
+            <a href="/"><img src="/imgs/favicon.ico.jpg"/></a>
+        </div>
+        <h1 ><a href="/" style="color: white; text-decoration: none">Review Công Ty</a></h1>
+    </div>
+    <div class="center">
+        <div class="search">
+            <i class="fa fa-search"></i>
+            <input style="font-family: 'Roboto', sans-serif;" type="text" placeholder="Tìm kiếm công ty">
+            </input>
+        </div>
+    </div>
+
+    <div class="right">
+        <i class="fa fa-user-circle"></i>
+        <a href="/login"><b>Đăng nhập</b></a>
+    </div>
+</header><br>
+<div class="container">
+    <h2>Thêm công ty mới</h2>
+    <hr>
+    <br>
+
+    <div class="form-group">
+        <label for="email">Tên công ty</label>
+        <input type="text" class="form-control" id="namecp" placeholder="Enter name company" name="namecp">
+    </div>
+    <div class="form-group">
+        <label for="pwd">Ảnh đại diện</label>
+        <input type="text" class="form-control" id="avatar" placeholder="Enter url your company" name="avatar">
+    </div>
+    <div class="form-group">
+        <label for="pwd">Địa chỉ</label>
+        <input type="text" class="form-control" id="address" placeholder="Enter address your company" name="address">
+    </div>
+    <div class="form-group">
+        <label for="pwd">Quy Mô</label>
+        <input type="text" class="form-control" id="sizecp" placeholder="Example: zone, many staff,..." name="sizecp">
+    </div>
+    <div class="form-group">
+        <label for="pwd">Lĩnh Vực</label>
+        <input type="text" class="form-control" id="typecp" placeholder="Example: information, logistics...."
+               name="typecp">
+    </div>
+    <div class="form-group">
+        <label for="Textarea1">Mô tả</label>
+        <textarea class="form-control" id="descp" rows="7" placeholder="Detail company"></textarea>
+    </div>
+    <button type="submit" class="btn btn-blue text-center" onclick="Uploadcp()">Đăng công ty</button>
+
+</div>
+<br>
+<hr>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Công ty</th>
+        <th scope="col">Lĩnh Vực</th>
+        <th scope="col">Thao tác</th>
+    </tr>
+    </thead>
+    <tbody id="tbodyne">
+    <!--    <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+
+            <td>
+                <button type="button" class="btn btn-success" onclick="">Sửa</button>
+                <button type="button" class="btn btn-danger" onclick="">Xóa</button>
+            </td>
+
+        </tr>-->
+
+
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label for="recipient-name" class="col-form-label">Tên công ty:</label>
+                <input type="text" class="form-control" id="editnamecp">
+                <label for="recipient-name" class="col-form-label">Ảnh đại diện:</label>
+                <input type="text" class="form-control" id="editavatarcp">
+                <label for="recipient-name" class="col-form-label">Địa chỉ:</label>
+                <input type="text" class="form-control" id="editaddresscp">
+                <label for="recipient-name" class="col-form-label">Quy mô:</label>
+                <input type="text" class="form-control" id="editsizecp">
+                <label for="recipient-name" class="col-form-label">Lĩnh Vực:</label>
+                <input type="text" class="form-control" id="edittypecp">
+                <label for="recipient-name" class="col-form-label">Mô tả:</label>
+                <textarea class="form-control" id="editdescp" rows="7"></textarea>
+                <input type="hidden" class="form-control" id="editidcp">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Nickname</th>
+                        <th scope="col">Comment</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbodycomment">
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal" style="color: black">Close</button>
+                <button type="button" class="btn btn-primary" onclick="SaveChange()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+<script>
+    $(document).ready(function () {
+        getAllpost()
+    })
+
+    function Uploadcp() {
+        if ($("#namecp").val() == "") {
+            alert("Yo wtf, mày chưa nhập tên công ty")
+            return
+        }
+        if ($("#avatar").val() == "") {
+            alert("Yo wtf, mày chưa nhập avatart công ty")
+            return
+        }
+        if ($("#address").val() == "") {
+            alert("Yo wtf, mày chưa nhập địa chỉ công ty")
+            return
+        }
+        if ($("#sizecp").val() == "") {
+            alert("Yo wtf, mày chưa nhập size công ty")
+            return
+        }
+        if ($("#typecp").val() == "") {
+            alert("Yo wtf, mày chưa nhập loại công ty")
+            return
+        }
+        if ($("#descp").val() == "") {
+            alert("Yo wtf, mày chưa nhập mô tả công ty")
+            return
+        }
+        var data = {
+            namecp: $("#namecp").val().trim(),
+            avatar: $("#avatar").val().trim(),
+            address: $("#address").val().trim(),
+            sizecp: $("#sizecp").val().trim(),
+            typecp: $("#typecp").val().trim(),
+            descp: $("#descp").val().trim(),
+        }
+        $("#namecp").val("")
+        $("#avatar").val("")
+        $("#address").val("")
+        $("#sizecp").val("")
+        $("#typecp").val("")
+        $("#descp").val("")
+        $.ajax({
+            url: '/uploadcp',
+            type: 'POST',
+            data: data
+        }).then(res => {
+            if (res.success) {
+                alert("Thêm công mới thành công òi")
+                getAllpost()
+            }
+        })
+    }
+
+    function Editcp(id, namecp, avatar, sizecp, typecp, descp, address) {
+        $("#editidcp").val(id)
+        $("#editnamecp").val(namecp)
+        $("#editavatarcp").val(avatar)
+        $("#editaddresscp").val(address)
+        $("#editsizecp").val(sizecp)
+        $("#edittypecp").val(typecp)
+        $("#editdescp").val(descp)
+        getComment(id)
+        $('#ModalEdit').modal('toggle');
+    }
+
+    function SaveChange() {
+        if ($("#editnamecp").val() == "") {
+            alert("Yo wtf, mày chưa nhập tên công ty")
+            return
+        }
+        if ($("#editavatarcp").val() == "") {
+            alert("Yo wtf, mày chưa nhập avatart công ty")
+            return
+        }
+        if ($("#editaddresscp").val() == "") {
+            alert("Yo wtf, mày chưa nhập địa chỉ công ty")
+            return
+        }
+        if ($("#editsizecp").val() == "") {
+            alert("Yo wtf, mày chưa nhập size công ty")
+            return
+        }
+        if ($("#edittypecp").val() == "") {
+            alert("Yo wtf, mày chưa nhập loại công ty")
+            return
+        }
+        if ($("#editdescp").val() == "") {
+            alert("Yo wtf, mày chưa nhập mô tả công ty")
+            return
+        }
+        var data = {
+            id: $("#editidcp").val(),
+            editnamecp: $("#editnamecp").val().trim(),
+            editavatarcp: $("#editavatarcp").val().trim(),
+            editaddresscp: $("#editaddresscp").val().trim(),
+            editsizecp: $("#editsizecp").val().trim(),
+            edittypecp: $("#edittypecp").val().trim(),
+            editdescp: $("#editdescp").val().trim(),
+        }
+
+        $.ajax({
+            url: '/savechangecompany',
+            type: 'POST',
+            data: data
+        }).then(res => {
+            if (res.success) {
+                alert("Sửa thành công òi")
+                $('#ModalEdit').modal('toggle');
+                getAllpost()
+            }
+        })
+    }
+
+    function Deletecp(id) {
+        var r = confirm("Bạn có chắc muốn xóa!");
+        if (r == true) {
+            $.ajax({
+                url: '/deletecompany',
+                type: 'POST',
+                data: {id: id}
+            }).then(res => {
+                if (res.success) {
+                    alert("Xóa thành công òi")
+                    getAllpost()
+                }
+            })
+        }
+
+    }
+
+    function getAllpost() {
+        console.log("aaa")
+        $.ajax({
+            url: '/getallcompany',
+            type: 'POST',
+        }).then(res => {
+            var string = ""
+            for (var i = 0; i < res.cpmpanys.length; i++) {
+                string += `<tr>
+                    <th scope="row">${(i + 1)}</th>
+                    <td>${res.cpmpanys[i].namecp}</td>
+                    <td>${res.cpmpanys[i].typecp}</td>
+                    <td>
+                        <button type="button" class="btn btn-success" onclick="Editcp('${res.cpmpanys[i]._id}', '${res.cpmpanys[i].namecp}', '${res.cpmpanys[i].avatar}', '${res.cpmpanys[i].sizecp}', '${res.cpmpanys[i].typecp}', '${res.cpmpanys[i].descp}', '${res.cpmpanys[i].address}')">Sửa</button>
+                        <button type="button" class="btn btn-danger" onclick="Deletecp('${res.cpmpanys[i]._id}')">Xóa</button>
+                    </td>
+                </tr>`
+
+            }
+
+            $("#tbodyne").html(string)
+        })
+    }
+
+    function DeleteComment(idcmt, idcompany){
+        $.ajax({
+            url: '/deletecmt',
+            type: 'POST',
+            data: {id: idcmt}
+        }).then(res => {
+            if (res.success) {
+                alert("Xóa thành công òi")
+                getComment(idcompany)
+            }
+        })
+    }
+
+
+    function getComment(idcompany) {
+        $.ajax({
+            url: '/getcommentbycp',
+            type: 'POST',
+            data: {id: idcompany}
+        }).then(res => {
+            console.log(res)
+            var string = ""
+            for (var i = 0; i < res.length; i++) {
+                var maxLength = 120;
+                var cmt = res[i].comment.substring(0, maxLength) + '...';
+                string += `<tr>
+                    <td>${res[i].nickname}</td>
+                    <td>${cmt}</td>
+                    <td>
+                        <button type="button" class="btn btn-danger" onclick="DeleteComment('${res[i]._id}', '${idcompany}')">Xóa Comment</button>
+                    </td>
+                </tr>`
+
+            }
+
+            $("#tbodycomment").html(string)
+        })
+    }
+</script>
+</html>
