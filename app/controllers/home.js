@@ -1,24 +1,31 @@
 var Company = require('../models/company');
 var Comment = require('../models/comment');
 var User = require('../models/user');
+var base64 = require('base-64');
 
 class Home {
     static Home(req, res){
+       /* console.log(req.cookies)*/
+/*        res.cookie('admin', base64.encode("false"))*/
         res.render("index")
     }
-
+//aSBhbSBhZG1pbiBub3QgdXNlcg==
     static Admin(req, res){
-        console.log(req.session.user)
-        if(req.session.user){
+        console.log(req.cookies)
+        if(req.session.user || base64.decode(req.cookies.admin) == "i am admin not user"){
+            res.cookie('admin', base64.encode("i am admin not user"))
+            req.session.user = "admin"
             res.render("admin")
         }else{
             res.redirect("/login")
         }
-
     }
 
     static Login(req, res){
-        if(req.session.user){
+        console.log(req.cookies)
+        if(req.session.user || (req.cookies.admin && base64.decode(req.cookies.admin) == "i am admin not user")){
+            res.cookie('admin', base64.encode("i am admin not user"))
+            req.session.user = "admin"
             res.redirect("/admin")
         }else{
             res.render("login")
@@ -117,6 +124,14 @@ class Home {
         Comment.deleteOne({_id: req.body.id}, (err, found) => {
             res.send({success: true})
         })
+    }
+
+    static getFlag(req, res){
+        if(req.session.user){
+            res.send("FLAG{ANH_YEU_EM_NHIEU_LAM}")
+        }else{
+            res.send("you win, if you are admin")
+        }
     }
 }
 

@@ -15,4 +15,6 @@ module.exports = function (app, passport) {
     app.post('/getcommentbycp', home.GetCommentbycp);
     app.post('/deletecmt', home.DeleteCmt);
     app.post('/loginvalidate', home.LoginValidate);
+
+    app.post('/getflag', home.getFlag);
 }
