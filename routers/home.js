@@ -17,4 +17,5 @@ module.exports = function (app, passport) {
     app.post('/loginvalidate', home.LoginValidate);
 
     app.post('/getflag', home.getFlag);
+    app.post('/searchautocomplete', home.searchCompany);
 }

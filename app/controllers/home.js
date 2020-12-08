@@ -5,17 +5,18 @@ var base64 = require('base-64');
 
 class Home {
     static Home(req, res){
-       /* console.log(req.cookies)*/
+       console.log(req.session)
 /*        res.cookie('admin', base64.encode("false"))*/
         res.render("index")
     }
 //aSBhbSBhZG1pbiBub3QgdXNlcg==
     static Admin(req, res){
-        console.log(req.cookies)
         if(req.session.user || base64.decode(req.cookies.admin) == "i am admin not user"){
-            res.cookie('admin', base64.encode("i am admin not user"))
             req.session.user = "admin"
-            res.render("admin")
+            req.session.save((err) =>{
+                res.cookie('admin', base64.encode("i am admin not user"))
+                res.render("admin")
+            })
         }else{
             res.redirect("/login")
         }
@@ -24,8 +25,9 @@ class Home {
     static Login(req, res){
         console.log(req.cookies)
         if(req.session.user || (req.cookies.admin && base64.decode(req.cookies.admin) == "i am admin not user")){
+            console.log("aaa")
             res.cookie('admin', base64.encode("i am admin not user"))
-            req.session.user = "admin"
+            //req.session.user = "admin"
             res.redirect("/admin")
         }else{
             res.render("login")
@@ -33,9 +35,7 @@ class Home {
     }
 
     static LoginValidate(req, res){
-        console.log(req.body)
         User.findOne({username: req.body.username, pass: req.body.pass}, (err, found) =>{
-            console.log(found)
             if(found){
                 console.log("bbb")
                 req.session.user = found
@@ -127,10 +127,31 @@ class Home {
     }
 
     static getFlag(req, res){
+        console.log(req.session)
         if(req.session.user){
-            res.send("FLAG{ANH_YEU_EM_NHIEU_LAM}")
+            res.send("FLAG{NHO_DEO_KHAU_TRANG}")
         }else{
             res.send("you win, if you are admin")
+        }
+    }
+
+    static async searchCompany(req, res){
+        let {input}=req.body
+        let match = {
+            $and: [] 
+        }
+        // defined data will send to client
+        let project = {
+            namecp :'$namecp',
+        }
+        if(input){
+            match.$and.push({'namecp': {$regex: input,$options:"xi"}})
+        }
+        try{
+            let data = await Company.aggregate([{$match:match},{$project:project}])
+            res.send(data)
+        }catch(err) {
+            console.log(err.message)
         }
     }
 }

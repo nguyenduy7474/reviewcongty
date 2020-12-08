@@ -6,6 +6,9 @@
     <title>Review Công Ty</title>
     <link rel="stylesheet" href="/css/css-rv.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
@@ -21,7 +24,7 @@
             <div class="center">
                 <div class="search">
                    <i class="fa fa-search"></i>
-                    <input style="font-family: 'Roboto', sans-serif;" type="text" placeholder="Tìm kiếm công ty">
+                    <input id="inputsearch" style="font-family: 'Roboto', sans-serif;" type="text" placeholder="Tìm kiếm công ty" oninput="searching()">
                     </input>
                 </div>
             </div>
@@ -56,6 +59,7 @@
     </div>
 
 </body>
+<script src="/js/mainfile.js"></script>
 <script>
 
     /*************************
